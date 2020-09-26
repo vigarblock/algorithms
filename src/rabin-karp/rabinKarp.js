@@ -1,4 +1,3 @@
-// const unicodeMax = Math.pow(2, 16) - 1;
 const unicodeMax = 255;
 
 /**
