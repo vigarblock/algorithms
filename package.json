@@ -1,0 +1,30 @@
+{
+  "name": "algorithms",
+  "version": "1.0.0",
+  "description": "Algorithms implemented in JavaScript",
+  "main": "index.js",
+  "directories": {
+    "src": "src"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vigarblock/algorithms.git"
+  },
+  "keywords": [
+    "javascript in algorithms",
+    "computer science",
+    "data structures"
+  ],
+  "author": "Vigar Block",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vigarblock/algorithms/issues"
+  },
+  "homepage": "https://github.com/vigarblock/algorithms#readme",
+  "dependencies": {
+    "jest": "^26.4.2"
+  }
+}
