@@ -1,4 +1,5 @@
-const unicodeMax = 255;
+const BASE = 27;
+const MODULUS = 113;
 
 /**
  *
@@ -8,39 +9,52 @@ const unicodeMax = 255;
  *  -1 returned if no match is found
  */
 function rabinKarp(word, text) {
-  const wordHash = computeHash(word);
-  const m = word.length;
+  const wordHashCode = hash(word);
 
-  let initialFrameHash = computeHash(text.slice(0, m));
-  if (initialFrameHash === wordHash) {
-    return 0;
-  }
+  let hashCode;
+  let wordSize = word.length;
+  let previousWord;
+  let currentWord;
 
-  let rollingHash = initialFrameHash;
+  for (let i = 0; i <= text.length - wordSize; i++) {
+    currentWord = text.substring(i, i + wordSize);
 
-  for (let i = m; i < text.length; i++) {
-    const prevCharHashCode = computeHash(text.charAt(i - m), m - 1);
-    const currentCharHashCode = computeHash(text.charAt(i));
-    rollingHash = ((rollingHash - prevCharHashCode) * unicodeMax) + currentCharHashCode;
-    
-    if(rollingHash === wordHash) {
-      return i - (m - 1);
+    if (!hashCode) {
+      hashCode = hash(currentWord);
+    } else {
+      hashCode = roll(hashCode, previousWord, currentWord);
+    }
+
+    previousWord = currentWord;
+
+    if (hashCode === wordHashCode && currentWord === word) {
+      return i;
     }
   }
 
   return -1;
 }
 
-function computeHash(word, startingExponent) {
+function hash(word) {
   let hashCode = 0;
   let index = 0;
-  let exponent = startingExponent || word.length - 1;
 
   while(index < word.length) {    
-    hashCode += word.charCodeAt(index) * Math.pow(unicodeMax, exponent);
+    hashCode += word.charCodeAt(index) * Math.pow(BASE, (word.length - index) - 1);
     index++;
-    exponent--;
   }
+  return hashCode % MODULUS;
+}
+
+function roll(previousHash, previousWord, currentWord) {
+  let hashCode = previousHash;
+
+  hashCode -= previousWord.charCodeAt(0) * Math.pow(BASE, previousWord.length - 1) % MODULUS;
+  hashCode *= BASE;
+  hashCode %= MODULUS;
+  hashCode += currentWord.charCodeAt(currentWord.length - 1);
+  hashCode %= MODULUS;
+
   return hashCode;
 }
 
