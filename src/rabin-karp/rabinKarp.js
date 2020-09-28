@@ -1,5 +1,5 @@
-const BASE = 27;
-const MODULUS = 113;
+const BASE = 256;
+const MODULUS = 997;
 
 /**
  *
@@ -37,22 +37,39 @@ function rabinKarp(word, text) {
 
 function hash(word) {
   let hashCode = 0;
-  let index = 0;
 
-  while(index < word.length) {    
-    hashCode += word.charCodeAt(index) * Math.pow(BASE, (word.length - index) - 1);
-    index++;
+  for (let i = 0; i < word.length; i++) {
+    hashCode *= BASE;
+    hashCode += word.charCodeAt(i);
+    hashCode %= MODULUS;
   }
-  return hashCode % MODULUS;
+
+  return hashCode;
 }
 
 function roll(previousHash, previousWord, currentWord) {
   let hashCode = previousHash;
 
-  hashCode -= previousWord.charCodeAt(0) * Math.pow(BASE, previousWord.length - 1) % MODULUS;
+  // Precompute multiplier
+  let multiplier = 1;
+  for (let i = 1; i < previousWord.length; i++) {
+    multiplier *= BASE;
+    multiplier %= MODULUS;
+  }
+
+  // Ensure non-negative hash by adding the modulus value
+  hashCode += MODULUS;
+
+  // Use multiplier to calculate and deduct the skipped character from rolling window
+  hashCode -= (multiplier * previousWord.charCodeAt(0)) % MODULUS;
+
+  // Multiply by base to restore order of new frame
   hashCode *= BASE;
-  hashCode %= MODULUS;
+
+  // Add the new character to the hash code
   hashCode += currentWord.charCodeAt(currentWord.length - 1);
+
+  // Compute modulus to prevent integer overflow
   hashCode %= MODULUS;
 
   return hashCode;
