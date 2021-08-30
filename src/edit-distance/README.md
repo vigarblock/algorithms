@@ -6,7 +6,7 @@ Given two arrays of strings, compute the minimum number of operations (insertion
 
 A = "EDITING" & B = "DISTANCE"
 
-For the purposes of constructing an alignment of the optimal distance, a ***-*** is used to denote an insertion or deletion.
+For the purposes of constructing an alignment of the optimal distance, a "***-***" is used to denote an insertion or deletion.
 
 The resulting optimal edit distance alignment of converting A to B is as follows:
 
@@ -16,7 +16,7 @@ Given the cost of an insertion, deletion, mismatch is 1 and the cost of a match 
 
 ## Solution
 
-The apprach used to solve this is based on the dynamic programming algorithm by **Wagner-Fischer**.
+The approach used to solve this is based on the dynamic programming algorithm by **Wagner-Fischer**.
 
 Refer: https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm
 
